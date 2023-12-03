@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style-create.css">
+</head>
+<body>
+    <div id="tampil-pilihan">
+        <a href="../index.html" id="read" class="menu">Read Soal</a>
+        <a href="./" id="crate"  class="menu">Create Soal</a>
+        <a href="../update-soal/" id="update" class="menu">Update Soal</a>
+        <a href="../delete-soal/" id="delete"  class="menu">Delete Soal</a>
+        <a href="" id="exit"  class="menu">Exit</a>
+    </div>
+    <div class="container-main">
+        <h1>Create Question</h1>
+        <form action="" name="input_soal">
+          <label for="" class="soal">Enter the question number
+            <input type="number" name="nomor" placeholder="kode soal" required autofocus/>
+          </label>
+          <label for="" class="buat-soal">
+            Input Soal
+            <textarea name="soal" id="" cols="30" rows="10"
+              placeholder=" Question Description ... "
+              required
+            ></textarea>
+          </label>
+          <label for="" class="soal"
+            >Option content A<input
+              type="text"
+              name="pilihA"
+              id=""
+              placeholder="Input Option A"
+              required
+          /></label>
+          <label for="" class="soal"
+            >option content B
+            <input
+              type="text"
+              name="pilihB"
+              id=""
+              placeholder="Input Option B"
+              required/>
+            </label>
+          <label for="" class="soal">option content C
+            <input
+              type="text"
+              name="pilihC"
+              id=""
+              placeholder="Option Part C"
+              required/></label>
+          <label for="" class="soal">Option content C
+          <input
+              type="text"
+              name="pilihD"
+              id=""
+              placeholder="Input Option D"
+              required/></label>  
+          <label for="" class="soal">Answer
+            <input
+            type="text"
+            name="jawaban"
+            id=""
+            placeholder="Answer"
+            required
+        /></label>
+          <button>Save</button>
+          <button type="reset">Cancel</button>
+        </form>
+      </div>
+      <a href="../../index.html"></a>
+      <script type="module">
+      import validasiUrl from "../../validasiUrl.js";
+      validasiUrl();
+      document.input_soal.onsubmit = async (e) => {
+        e.preventDefault();
+        const response = await fetch("/api/admin/soal", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nomor: document.input_soal.nomor.value,
+            soal: document.input_soal.soal.value,
+            pilihA: document.input_soal.pilihA.value,
+            pilihB: document.input_soal.pilihB.value,
+            pilihC: document.input_soal.pilihC.value,
+            pilihD: document.input_soal.pilihD.value,
+            jawaban: document.input_soal.jawaban.value,
+          }),
+      
+        });
+        deleteSoal();
+        const message = await response.text();
+        alert(message);
+        location.href="../";
+      };
+      function deleteSoal() {
+        document.input_soal.nomor.value = "";
+        document.input_soal.soal.value = "";
+        document.input_soal.pilihA.value = "";
+        document.input_soal.pilihB.value = "";
+        document.input_soal.pilihC.value = "";
+        document.input_soal.pilihD.value = "";
+        document.input_soal.jawaban.value = "";
+      }
+      document.querySelector("#exit").onclick = (e) => {
+        window.localStorage.clear(localStorage.getItem("token"));
+        location.reload();
+      };
+
+      </script>
+  
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style-home.css">
+</head>
+
+<body>
+    <header>
+        <h1>WordWiz</h1>
+    </header>   
+    <div id="container">
+        <div class="samping">
+            <a href="index.html">Home</a>
+            <a href="./vocab/index.html">Vocabulary</a>
+            <a href="./quiz/index.html">Quiz</a>
+            <a id="logout" href="">Logout</a>
+        </div>
+        <div class="main">           
+        </div>
+        <div class="card"></div>
+    </div> 
+
+    <script>
+        fetch("/api/data")
+        .then((res)=>res.json())
+        .then((data)=>{
+            for (let x =0 ; x<data.length;x++){
+                const divv = document.createElement("div")
+                const image= document.createElement("img")
+                image.classList.add("image")
+                document.getElementById("container").appendChild(image);
+                const user = document.createElement("h4")
+                image.src=`/images/${data[x].image}`
+                user.textContent = data[x].nama
+                divv.appendChild(image);
+                divv.appendChild(user);
+                document.querySelector(".card").appendChild(divv);
+            }
+        });
+
+        const logout = document.querySelector("#logout");
+        logout.onclick = () => {
+            fetch("/api/logout").then((response) => {
+                if (response.ok) {
+                    location.href = "/login";
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

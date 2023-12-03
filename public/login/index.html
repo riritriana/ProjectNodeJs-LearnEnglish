@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="form login" id="login">
+      <form name="login" id="login-form" display: flex; flex-direction: column; gap: 10px;>
+        <h2>LOGIN</h2>
+        <div class="input">
+          <label for="login"></label>
+          <input id="login-user" name="username" type="text" placeholder="Masukkan Username">
+        </div>
+        <div class="input">
+          <label for="login"></label>
+          <input id="login-password"  name="password" type="password" placeholder="Masukan Password">
+        </div>
+        <button><b>LOGIN</b></button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  document.querySelector("button").onclick = async (e) => {
+    e.preventDefault();
+    const username = document.login.username.value;
+    const password = document.login.password.value;
+    // untuk mengubah menjadi json
+    await fetch("/api/login", {
+      method: "POST", // untuk menginput
+      headers: {
+        "Content-Type": "application/json", // mengubah nilai yang di input menjadi json
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    }).then(async(response)=>{
+        if(response.ok){
+            location.href="/home";
+        }else{
+            const message = await response.text();
+            alert(message);
+        }
+    })
+    
+    // location.href = "/login"; 
+  };
+</script>

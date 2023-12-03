@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style-update.css">
+</head>
+<body>
+    <div id="tampil-pilihan">
+        <a href="../index.html" id="read" class="menu">Read Soal</a>
+        <a href="../create-soal/" id="crate"  class="menu">Create Soal</a>
+        <a href="./" id="update" class="menu">Update Soal</a>
+        <a href="../delete-soal/" id="delete"  class="menu">Delete Soal</a>
+        <a href="" id="exit"  class="menu">Exit</a>
+    </div>
+    <div class="container-main">
+        <h1>Update Question</h1>
+        <form action="" name="input_soal">
+          <label for="" class="soal">Enter the question number
+            <input type="number" name="nomor" placeholder="kode soal" required autofocus/>
+          </label>
+          <label for="" class="buat-soal">
+            Input Soal
+            <textarea name="soal" id="" cols="30" rows="10"
+              placeholder=" Question Description ... "
+              required
+            ></textarea>
+          </label>
+          <label for="" class="soal"
+            >Option content A<input
+              type="text"
+              name="pilihA"
+              id=""
+              placeholder="Input Option A"
+              required
+          /></label>
+          <label for="" class="soal"
+            >option content B
+            <input
+              type="text"
+              name="pilihB"
+              id=""
+              placeholder="Input Option B"
+              required/>
+            </label>
+          <label for="" class="soal">option content C
+            <input
+              type="text"
+              name="pilihC"
+              id=""
+              placeholder="Option Part C"
+              required/></label>
+          <label for="" class="soal">Option content C
+          <input
+              type="text"
+              name="pilihD"
+              id=""
+              placeholder="Input Option D"
+              required/></label>  
+          <label for="" class="soal">Answer
+            <input
+            type="text"
+            name="jawaban"
+            id=""
+            placeholder="Answer"
+            required
+        /></label>
+          <button>Save</button>
+          <button type="reset">Cancel</button>
+        </form>
+      </div>
+      <script type="module" src="./upate-soal.js"></script>
+</body>
+</html>

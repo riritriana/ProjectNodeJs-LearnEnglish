@@ -1,0 +1,11 @@
+CREATE DATABASE login;
+USE login;
+
+CREATE OR REPLACE TABLE akun(
+id INT PRIMARY KEY AUTO_INCREMENT,
+nama VARCHAR (36),
+email VARCHAR(36),
+username VARCHAR (36),
+`password` VARCHAR (36),
+image 	VARCHAR(36)
+);
