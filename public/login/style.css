@@ -9,8 +9,10 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-size: 100%;
-  background-image: url("https://wallpaperaccess.com/full/3915891.jpg");
+  background-size: 50%;
+  background-color: rgb(205, 223, 233);
+  /* background-image: url("https://i.pinimg.com/236x/25/9e/4f/259e4f51d61fbe0c5ee633c0eae6fcbb.jpg"); */
+
 }  
 .container {
   position: relative;
@@ -76,7 +78,11 @@ button {
   font-size: 17px;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
+.klik{
+  display: flex;
+  gap: 10px;
+ }
+ 
 #login-user {
   background-color: rgb(205, 223, 233);
 }

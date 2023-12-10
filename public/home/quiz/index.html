@@ -1,26 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>quiz</title>
     <link rel="stylesheet" href="./style-quiz.css">
-</head>
-<body>
-    <h1>Contoh soal Quiziz</h1>
-    <div class="container">
-        <h2>simple quiz</h2>
-        <div class="quiz">
-            <h3 id="question">Question goes here</h3>
-            <div id="answer-buttons">
-                <button class="btn">Answer1</button>
-                <button class="btn">Answer1</button>
-                <button class="btn">Answer1</button>
-                <button class="btn">Answer1</button>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
 
-            </div>
-            <button id="next-btn">Next</button>
-        </div>
-    </div>
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">
+            <img src="../../images/logo.jpg" alt="" />WordWiz</a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="navbar">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../vocab/index.html">Vocabulary</a></li>
+            <li><a href="./index.html">Quiz</a></li>
+            <li><a id="logout" href="">Logout</a></li>
+        </ul>
+        <!-- ini akan muncul saat layar max 991px untuk mengakses ke link  -->
+        <ul class="close-menu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../vocab/index.html">Vocabulary</a></li>
+            <li><a href="./index.html">Quiz</a></li>
+            <li><a id="exit" href="">Exit</a></li>
+            <button class="tutup">X</button>
+        </ul>
+    </header>
+
+    <h1>collection of questions and answers</h1>
+    <main>
+        <section>
+            <div class="main"></div>
+
+        </section>
+
+    </main>
+    <script type="module">
+        !localStorage.getItem("token") && (location.href = "/");
+        const main = document.querySelector(".main");
+        async function soal() {
+            const res = await fetch("/api/soal", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            const data = await res.json();
+            data.forEach((x, y) => {
+                const div = document.createElement("div");
+                div.className = "container";
+
+                const p = document.createElement("p");
+                p.textContent = `${y + 1}. ${x.soal}`;
+                div.appendChild(p);
+
+                const quiz = document.createElement("div");
+                quiz.className = "answer-quiz";
+                //a
+                const button1 = document.createElement("button");
+                button1.className = "btn";
+                button1.textContent = `A. ${x.pilihan_A}`;
+                quiz.appendChild(button1);
+                //b
+                const button2 = document.createElement("button");
+                button2.className = "btn";
+                button2.textContent = `B. ${x.pilihan_B}`;
+                quiz.appendChild(button2);
+                //c
+                const button3 = document.createElement("button");
+                button3.className = "btn";
+                button3.textContent = `C. ${x.pilihan_C}`;
+                quiz.appendChild(button3);
+                //D
+                const button4 = document.createElement("button");
+                button4.className = "btn";
+                button4.textContent = `D ${x.pilihan_D}`;
+                quiz.appendChild(button4);
+
+                const div2 = document.createElement("div");
+                div2.className = "jawaban";
+
+                const jawaban = document.createElement("h3");
+                jawaban.className = "jwb";
+                jawaban.textContent = `Jawaban : ${x.jawaban} `;
+                div2.appendChild(jawaban);
+
+                div.appendChild(quiz);
+                div.appendChild(div2);
+                main.appendChild(div);
+
+                document.body.appendChild(main);
+
+            });
+        }
+        soal();
+        document.addEventListener('DOMContentLoaded', () => {
+            const header = document.querySelector("header");
+            const menu = document.getElementById('menu-icon');
+            const navbar = document.querySelector('.close-menu');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('active', window.scrollY > 0);
+            });
+            menu.addEventListener('click', () => {
+                navbar.className = "open-menu"
+                document.querySelector(".bx").className = "open-menu-icon";
+            });
+            window.addEventListener('scroll', () => {
+                navbar.classList.remove('active');
+            });
+        });
+        document.querySelector(".tutup").addEventListener("click", () => {
+            document.querySelector(".open-menu").className = "close-menu";
+            document.querySelector(".open-menu-icon").className = "bx bx-menu";
+        });
+
+        const logout = document.querySelector("#logout");
+        logout.onclick = () => {
+            fetch("/api/logout").then((response) => {
+                if (response.ok) {
+                    location.href = "/register";
+                }
+            })
+        }
+
+
+    </script>
 </body>
+
 </html>

@@ -11,7 +11,9 @@
 <body>
   <div class="container">
     <div class="form login" id="login">
-      <form name="register" id="login-form" display: flex; flex-direction: column; gap: 10px;>
+      <form name="register" id="login-form"  display: flex;
+      flex-direction: column;
+      gap: 10px;>
         <h2>REGISTER</h2>
         <div class="input">
           <input class="inputan"  type="text" name="nama" placeholder="Masukkan Nama Lengkap">
@@ -28,10 +30,10 @@
         <div class="input">
           <input class="inputan" type="file" name="image">
         </div>
-        <!-- <div class="tombol-masuk"> -->
+        <div class="tombol-masuk">
           <button class="register"><b>REGISTER</b></button>
-          <button class="login"><b>LOGIN</b></button> 
-        <!-- </div> -->
+          <button class="login2" type="button"><b>LOGIN</b></button> 
+        </div>
       </form>
     </div>
   </div>
@@ -48,10 +50,10 @@
     data.append("username",document.register.username.value);
     data.append("password",document.register.password.value);
     data.append("image",document.register.image.files[0]);
-    // const username = document.login.username.value;
-    // const password = document.login.password.value;
     // untuk mengubah menjadi json
-    await fetch("/api/register", {
+    
+    const respose=await fetch("/api/register", {
+
       method: "POST", // untuk menginput
       // headers: {
       //   "Content-Type": "application/json", // mengubah nilai yang di input menjadi json
@@ -62,7 +64,16 @@
       //   password,
       // }),
     });
-    alert("Your Account is Registered"); 
+    if(respose.ok){
+          alert("Your Account is Registered"); 
     location.href = "/login"; 
+
+    }
+    else{
+      alert("user already");
+    }
   };
+  document.querySelector(".login2").onclick = async (e) => {
+    (location.href = "/login");
+  }
 </script>

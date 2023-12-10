@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Upload results from users</h1>
+    <div class="main"></div>
+    <script>
+            async function UploadFile() {    
+            const res = await fetch("/api/forum", {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            const data = await res.json();
+            const main = document.querySelector(".main");
+            for (let x = 0; x < data.length; x++) {
+                const div = document.createElement("div");
+                div.className = "container";
+
+                const divPhoto = document.createElement("div");
+                divPhoto.className = "photo";
+
+                const img=document.createElement("div");
+                img.className="gambar";
+                img.src=`/images/${data[x].image}`;
+                divPhoto.appendChild(img);
+
+                const p=document.createElement("p");
+                p.textContent= data[x].keterangan;
+                divPhoto.appendChild(p);
+
+                div.appendChild(divPhoto);
+                main.appendChild(div);
+            }
+        }
+        UploadFile();
+
+    </script>
+</body>
+
+</html>

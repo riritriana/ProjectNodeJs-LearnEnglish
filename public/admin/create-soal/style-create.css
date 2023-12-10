@@ -6,6 +6,8 @@ body {
   }
   
   #tampil-pilihan {
+    position: sticky;
+    top: 0;
     background-color: #4285f4;
     padding: 10px;
     display: flex;

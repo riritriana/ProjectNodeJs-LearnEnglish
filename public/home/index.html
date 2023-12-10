@@ -2,21 +2,187 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style-home.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <link rel="stylesheet" href="./style-home.css">
 </head>
 
 <body>
-    <header>
+  <header>
+    <a href="#" class="logo">
+      <img src="../images/logo.jpg" alt="" />WordWiz</a>
+    <div class="bx bx-menu" id="menu-icon"></div>
+    <ul class="navbar">
+      <li><a href="  ">Home</a></li>
+      <li><a href="./vocab/  ">Vocabulary</a></li>
+      <li><a href="./quiz/  ">Quiz</a></li>
+      <li><a id="logout" href="">Logout</a></li>
+    </ul>
+    <!-- ini akan muncul saat layar max 991px untuk mengakses ke link  -->
+    <ul class="close-menu">
+      <li><a href="/">Home</a></li>
+      <li><a href="./vocab/">Vocabulary</a></li>
+      <li><a href="./quiz/">Quiz</a></li>
+      <li><a id="logout" href="">Logout</a></li>
+      <button class="tutup">X</button>
+    </ul>
+  </header>
+  <nav id="nav-home">
+    <div class="blur-nav-home">
+      <h1 class="h1-nav-home">WordWiz</h1>
+      <p class="paragraf-home">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere nam officia unde vero
+        deserunt sed esse quasi exercitationem ipsum repellat. Aspernatur adipisci cupiditate quam cumque! At laudantium
+        debitis ea quae.</p>
+    </div>
+  </nav>
+
+  <main>
+    <!-- <button class="klik">Upload</button> -->
+    <section class="home">
+      <h1>WordWiz</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Dolores ipsam temporibus repudiandae deleniti, ea ipsum quaerat quidem iste error nulla blanditiis eaque
+        accusamus excepturi.
+        Consequatur consequuntur reiciendis velit exercitationem minima!Lorem
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Iste architecto veritatis animi sit, accusamus commodi necessitatibus optio sapiente maiores harum eum? Numquam
+        eius explicabo voluptatum saepe animi iste expedita veritatis.</p>
+    </section>
+    <section class="home" id="home">
+      <h1> Aplication Develover</h1>
+      <div class="home-container">
+      </div>
+      </div>
+    </section>
+    <section class="home">
+      <h1>users who have successfully logged in</h1>   
+      <div class="card-foto">
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-info">
+      <div class="adress">
+        <!-- tag i didapat dari google icon -->
+        <i class="bx bxs-map"><span>Jln Dakota No.8a Sukaraja</span></i>
+        <i class="bx bxs-phone"><span>085 723 764 893</span></i>
+        <i class="bx bxs-envelope"><span>WordWiz@gmail.com</span></i>
+      </div>
+      <div class="social">
+        <a href="https://instagram.com/rrtrna?igshid=MzNlNGNkZWQ4Mg=="><i class="bx bxl-instagram"></i></a>
+        <a href="https://twitter.com/RiriTrianaa?t=PPDNFkWuYN6yfTt8qSB3pQ&s=08"><i class="bx bxl-twitter"></i></a>
+        <a href="https://www.tiktok.com/@ririitriana?_t=8eSov3kkiCP&_r=1"><i class="bx bxl-tiktok"></i></a>
+      </div>
+    </div>
+    <p>&#169;copyRight By Riri Triana</p>
+  </footer>
+
+  <script type="module">
+    import validasiUrl, { fetch2 } from "../validasiUrl.js";
+    async function getContent() {
+      const home = document.querySelector(".home-container");
+      validasiUrl();
+      const res = await fetch2("/api/home", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+        data.forEach((datas)=>{
+          const div = document.createElement("div");
+          div.className="home-box";
+
+          const div2 = document.createElement("div");
+          div2.className = "box-img";
+
+          const img = document.createElement("img");
+          img.className="gambar";
+          img.src=datas.image;
+          div2.appendChild(img);
+
+          const h3judul= document.createElement("h3");
+          h3judul.textContent=datas.judul;
+          div2.appendChild(h3judul);
+
+          div.appendChild(div2);
+          home.appendChild(div);
+          
+        });
+    }
+    getContent();
+    async function cardFoto(){
+      const res = await fetch(`/api/me`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await res.json();
+        const me = document.querySelector(".card-foto");
+        for (let x = 0 ; x<data.length;x++){
+          const div = document.createElement("div");
+          div.className="home-box";
+
+          const div2 = document.createElement("div");
+          div2.className = "box-img";
+
+          const img = document.createElement("img");
+          img.className="gambar1";
+          img.src=`/images/${data[x].image}`;
+          div2.appendChild(img);
+
+          const h3judul= document.createElement("h3");
+          h3judul.textContent= data[x].nama;
+          div2.appendChild(h3judul);
+
+          div.appendChild(div2);
+          me.appendChild(div);
+        }
+
+    }
+    cardFoto();
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector("header");
+      const menu = document.getElementById('menu-icon');
+      const navbar = document.querySelector('.close-menu');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('active', window.scrollY > 0);
+      });
+      menu.addEventListener('click', () => {
+        navbar.className = "open-menu"
+        document.querySelector(".bx").className = "open-menu-icon";
+      });
+      window.addEventListener('scroll', () => {
+        navbar.classList.remove('active');
+      });
+    });
+    document.querySelector(".tutup").addEventListener("click", () => {
+      document.querySelector(".open-menu").className = "close-menu";
+      document.querySelector(".open-menu-icon").className = "bx bx-menu";
+    });
+    const logout = document.querySelector("#logout");
+    logout.onclick = () => {
+      fetch("/api/logout").then((response) => {
+        if (response.ok) {
+          location.href = "/register";
+        }
+      })
+    }
+  </script>
+  <!-- <header>
         <h1>WordWiz</h1>
     </header>   
     <div id="container">
         <div class="samping">
-            <a href="index.html">Home</a>
-            <a href="./vocab/index.html">Vocabulary</a>
-            <a href="./quiz/index.html">Quiz</a>
+            <a href="  ">Home</a>
+            <a href="./vocab/  ">Vocabulary</a>
+            <a href="./quiz/  ">Quiz</a>
             <a id="logout" href="">Logout</a>
         </div>
         <div class="main">           
@@ -41,7 +207,6 @@
                 document.querySelector(".card").appendChild(divv);
             }
         });
-
         const logout = document.querySelector("#logout");
         logout.onclick = () => {
             fetch("/api/logout").then((response) => {
@@ -50,7 +215,7 @@
                 }
             })
         }
-    </script>
+    </script> -->
 </body>
 
 </html>

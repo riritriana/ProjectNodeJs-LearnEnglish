@@ -1,18 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./style-vocab.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
 </head>
+
 <body>
-    <div class="main">
-        <div class="section">
-            <h1>vocabulary</h1>
-        </div>
-        <select id="vocab"></select>
-        <div class="output"></div>
+  <header>
+    <a href="#" class="logo">
+      <img src="../../images/logo.jpg" alt="" />WordWiz</a>
+    <div class="bx bx-menu" id="menu-icon"></div>
+    <ul class="navbar">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Vocabulary</a></li>
+      <li><a href="../quiz/index.html">Quiz</a></li>
+      <li><a id="logout" href="">Logout</a></li>
+    </ul>
+    <!-- ini akan muncul saat layar max 991px untuk mengakses ke link  -->
+    <ul class="close-menu">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../vocab/index.html">Vocabulary</a></li>
+      <li><a href="./index.html">Quiz</a></li>
+      <li><a id="logout" href="">Logout</a></li>
+      <button class="tutup">X</button>
+    </ul>
+  </header>
+  <main>
+    <section>
+      <div id="main1">
+       <h2>Irregular Verb</h2>
+        <table id="table1">
+          <tr>
+            <th>No</th>
+            <th>Verb 1</th>
+            <th>Verb 2</th>
+            <th>Veb 3</th>
+            <th>Translate</th>  
+          </tr>
+
+        </table>
       </div>
-  
+    </section>
+    <section>
+      <div id="main2">
+       <h2>Regular Verb</h2>
+        <table id="table2">
+          <tr>
+            <th>No</th>
+            <th>Verb 1</th>
+            <th>Verb 2</th>
+            <th>Veb 3</th>
+            <th>Translate</th>  
+          </tr>
+
+        </table>
+      </div>
+    </section>
+    <section>
+      <div id="main3">
+       <h2>Adjective(Kata Sifat)</h2>
+        <table id="table3">
+          <tr>
+            <th>No</th>
+            <th>English</th>
+            <th>Translate</th>  
+          </tr>
+
+        </table>
+      </div>
+    </section>
+    <section>
+      <div id="main4">
+       <h2>Noun(Kata Benda)</h2>
+        <table id="table4">
+          <tr>
+            <th>No</th>
+            <th>English</th>
+            <th>Translate</th>  
+          </tr>
+
+        </table>
+      </div>
+    </section>
+
+
+  </main>
+  <script type="module">
+
+    !localStorage.getItem("token") && (location.href = "/");
+    async function getVocab(){
+      const res = await fetch("/api/vocab", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+      const data = await res.json();
+      data.forEach((data,index) => {
+        const table = document.getElementById("table1");
+        const tr= document.createElement("tr");
+
+        const td= document.createElement("td");
+        td.textContent = data.nomor;
+        tr.appendChild(td);
+
+        const td1= document.createElement("td");
+        td1.textContent = data.verb1;
+        tr.appendChild(td1);
+
+        const td2= document.createElement("td");
+        td2.textContent = data.verb2;
+        tr.appendChild(td2);
+
+        const td3= document.createElement("td");
+        td3.textContent = data.verb3;
+        tr.appendChild(td3);
+
+        const td4= document.createElement("td");
+        td4.textContent = data.arti;
+        tr.appendChild(td4);
+
+        table.appendChild(tr);
+      });
+    }
+    getVocab();
+    async function getVocab1(){
+      const res = await fetch("/api/vocab1", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+      const data = await res.json();
+      data.forEach((data,index) => {
+        const table = document.getElementById("table2");
+        const tr= document.createElement("tr");
+
+        const td= document.createElement("td");
+        td.textContent = data.nomor;
+        tr.appendChild(td);
+
+        const td1= document.createElement("td");
+        td1.textContent = data.verb1;
+        tr.appendChild(td1);
+
+        const td2= document.createElement("td");
+        td2.textContent = data.verb2;
+        tr.appendChild(td2);
+
+        const td3= document.createElement("td");
+        td3.textContent = data.verb3;
+        tr.appendChild(td3);
+
+        const td4= document.createElement("td");
+        td4.textContent = data.arti;
+        tr.appendChild(td4);
+
+        table.appendChild(tr);
+      });
+    }
+    getVocab1();
+
+    async function getVocab2(){
+      const res = await fetch("/api/vocab2", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+      const data = await res.json();
+      data.forEach((data,index) => {
+        const table = document.getElementById("table3");
+        const tr= document.createElement("tr");
+
+        const td= document.createElement("td");
+        td.textContent = data.nomor;
+        tr.appendChild(td);
+
+        const td1= document.createElement("td");
+        td1.textContent = data.vocabulary;
+        tr.appendChild(td1);
+
+        const td2= document.createElement("td");
+        td2.textContent = data.arti;
+        tr.appendChild(td2);
+
+        table.appendChild(tr);
+      });
+    }
+    getVocab2();
+    async function getVocab3(){
+      const res = await fetch("/api/vocab3", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+      const data = await res.json();
+      data.forEach((data,index) => {
+        const table = document.getElementById("table4");
+        const tr= document.createElement("tr");
+
+        const td= document.createElement("td");
+        td.textContent = data.nomor;
+        tr.appendChild(td);
+
+        const td1= document.createElement("td");
+        td1.textContent = data.vocabulary;
+        tr.appendChild(td1);
+
+        const td2= document.createElement("td");
+        td2.textContent = data.arti;
+        tr.appendChild(td2);
+
+        table.appendChild(tr);
+      });
+    }
+    getVocab3();
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector("header");
+      const menu = document.getElementById('menu-icon');
+      const navbar = document.querySelector('.close-menu');
+      window.addEventListener('scroll', () => {
+        header.classList.toggle('active', window.scrollY > 0);
+      });
+      menu.addEventListener('click', () => {
+        navbar.className = "open-menu"
+        document.querySelector(".bx").className = "open-menu-icon";
+      });
+      window.addEventListener('scroll', () => {
+        navbar.classList.remove('active');
+      });
+    });
+    document.querySelector(".tutup").addEventListener("click", () => {
+      document.querySelector(".open-menu").className = "close-menu";
+      document.querySelector(".open-menu-icon").className = "bx bx-menu";
+    });
+    const logout = document.querySelector("#logout");
+    logout.onclick = () => {
+      fetch("/api/logout").then((response) => {
+        if (response.ok) {
+          location.href = "/register";
+        }
+      })
+    }
+  </script>
+
 </body>
+
 </html>

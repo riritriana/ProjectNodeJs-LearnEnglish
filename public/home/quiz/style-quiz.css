@@ -1,4 +1,278 @@
+* {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  scroll-padding-top: 2rem;
+  list-style: none;
+  text-decoration: none;
+}
+
+/* HEADER CSS */
+header {
+  position: sticky;
+  width: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 10%;
+  transition: 0.2s;
+  background-color: white;
+}
+
+header.active {
+  background: rgb(114, 219, 153);
+  box-shadow: 0 0 4px rgb(14 55 54/15%);
+}
+
+header.active .logo {
+  color: rgb(234, 177, 20);
+}
+
+header.active .navbar a {
+  color: rgb(234, 177, 20);
+}
+
+img {
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: orange;
+}
+
+.logo img {
+  width: 64px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.navbar {
+  display: flex;
+}
+
+.navbar a {
+  font-size: 1rem;
+  padding: 0 20px;
+  color: black;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: rgb(244, 80, 80);
+  background: wheat;
+  border-radius: 4px;
+}
+
+#menu-icon {
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10001;
+  display: none
+}
+
+/* mengatur CSS close menu di header */
+.close-menu {
+  display: none;
+}
+
+.open-menu {
+  display: flex;
+  background: antiquewhite;
+  height: 40vh;
+  position: fixed;
+  right: 0;
+  width: 11rem;
+  top: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.open-menu a {
+  font-size: 1rem;
+  padding: 0 20px;
+  color: black;
+  font-weight: 500;
+}
+
+.open-menu a:hover {
+  color: rgb(220, 86, 86);
+  background: palegreen;
+  border-radius: 4px;
+}
+
+.tutup {
+  position: absolute;
+  top: 5px;
+  right: 1rem;
+  background: rgb(207, 76, 76);
+  border: none;
+  font-size: 19px;
+  border-radius: 5px;
+}
+
+.open-menu-icon {
+  display: none;
+}
+
+
+/* body */
 body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+  min-height: 100vh;
+}
+
+/* main */
+.main {
+  margin: 7%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 100vw;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px;
+}
+
+.container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+p {
+  text-align: center;
+  padding: 5px;
+}
+
+.answer-quiz {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  color: rgb(43, 9, 9);
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:hover {
+  background-color: #c4e8e8;
+}
+
+
+/* FOOTER */
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: black;
+  color: #fff;
+}
+
+.footer-info {
+  flex: 1 1 20rem;
+}
+
+.adress {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.adress i {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 20px;
+}
+
+.adress span {
+  overflow: hidden;
+  font-size: 1rem;
+  margin-left: 1rem;
+  height: 100%;
+}
+
+.sosial {
+  margin-top: 1rem;
+}
+
+.sosial a {
+  font-size: 24px;
+  color: wheat;
+  margin-right: 1rem;
+}
+
+.sosial a:hover {
+  color:wheat;
+}
+
+@media (max-width: 991px) {
+  header {
+    padding: 11px 4%;
+  }
+
+  #menu-icon {
+    display: initial;
+  }
+
+  header.active #menu-icon {
+    color: #fff;
+  }
+
+  header .navbar {
+    position: absolute;
+    top: -500px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--sesond-color);
+    box-shadow: 0 4px 4px rgb(14 55 54/15%);
+    transition: 0.2s ease;
+    text-align: right;
+  }
+
+  .navbar .active {
+    top: 100%;
+  }
+
+  .navbar a {
+    padding: 1.5rem;
+    display: block;
+    color: #fff;
+  }
+}
+
+/* body {
     font-family: 'Arial', sans-serif;
     background-color: #f7f7f7;
     margin: 0;
@@ -66,4 +340,4 @@ h1, h2, h3 {
 
 #next-btn:hover {
     background-color: #0056b3;
-}
+} */

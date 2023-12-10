@@ -19,39 +19,66 @@
         </div>
         <div class="input">
           <label for="login"></label>
-          <input id="login-password"  name="password" type="password" placeholder="Masukan Password">
+          <input id="login-password" name="password" type="password" placeholder="Masukan Password">
         </div>
-        <button><b>LOGIN</b></button>
+        <div class="klik">
+          <button><b>LOGIN</b></button>
+          <button class="cancel"><b>CANCEL</b></button>
+  
+        </div>
       </form>
     </div>
   </div>
+  <a href="../home/"></a>
 </body>
 
 </html>
+
 <script>
-  document.querySelector("button").onclick = async (e) => {
+  document.login.onsubmit = async (e) => {
     e.preventDefault();
-    const username = document.login.username.value;
-    const password = document.login.password.value;
-    // untuk mengubah menjadi json
-    await fetch("/api/login", {
-      method: "POST", // untuk menginput
+    const user = document.login.username.value;
+    const pass = document.login.password.value;
+
+    const response = await fetch("/api/login", {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json", // mengubah nilai yang di input menjadi json
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username,
-        password,
+        username: user,
+        password: pass,
       }),
-    }).then(async(response)=>{
-        if(response.ok){
-            location.href="/home";
-        }else{
-            const message = await response.text();
-            alert(message);
-        }
-    })
-    
-    // location.href = "/login"; 
+    });
+    if (response.ok) {
+      const data = await response.json();
+      // console.log(data.token);
+      localStorage.setItem("token", data.token);
+      console.log(localStorage.getItem("token"));
+      if (!localStorage.getItem("token")) {
+        location.href = "../home";
+      }
+      const res = await fetch("/api/me", {
+        headers: {
+          // berfungsi untuk mengecek apakah dia sudah login atau belum
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data2 = await res.text();
+      if (data.role === "user") {
+        location.href = "../home";
+      } else if (data.role === "admin") {
+        location.href = "../admin";
+      }
+    } else {
+      const message = await response.text();
+      alert(message);
+    }
+    document.login.username.value = "";
+    document.login.password.value = "";
   };
+  document.querySelector(".cancel").onclick = async (e) => {
+    (location.href = "/register");
+  }
+
 </script>

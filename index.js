@@ -2,63 +2,51 @@ import express from "express"
 import conn from "./database.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
-import { addUser,getdata,login } from "./route/regist.js";
-import { postSoal,getSoal,putSoal,deleteSoal } from "./route/english-route.js";
+import { addUser,login } from "./route/regist.js";
+import { getdata,postSoal, getSoal, putSoal, deleteSoal, getVocab, getVocab1, getVocab2, getVocab3,getContent,cardFoto,uploadForum,forum } from "./route/english-route.js";
 import cookieParser from "cookie-parser";
-const upload = multer({dest:"public/images"})
+const upload = multer({ dest: "public/images" })
 const app = express();
 app.use(cookieParser());
 
 app.use(express.json());
-app.post("/api/register",upload.single("image"),(req,res)=>{
-  console.log(req.body.username);
-});
-
-app.use((req, res, next) => {
-  if (req.path.startsWith("/api/login") || req.path.startsWith("/assets")) {
-    next();
+app.use(express.static("public"));
+app.post("/api/register", upload.single("image"), addUser);
+app.post("/api/login", login);
+// autorization yg ada di index.html/home berfungsi untuk menjalankan yg dibawah app.aut
+app.use(function auth(req, res, next) {//ini akan diterapkan untuk setiap permintaan yg masuk
+  if (req.headers.authorization) {//mengecek 
+    // console.log(req.headers.authorization);
+    // untuk menghilangkan fecht 500
+    const token = req.headers.authorization.split(" ")[1];
+    jwt.verify(token, "riri", async (err, decoded) => {
+      if (!err) {
+        req.account = decoded;
+        next();
+      } else {
+        res.status(401).send("Token salah.");
+      }
+    });
   } else {
-    let authorized = false;
-    if (req.cookies.token) {
-      try {
-        req.me = jwt.verify(req.cookies.token, "riri");
-        authorized = true;
-      } catch (error) {
-        res.clearCookie("token");
-      }
-    }
-    if (authorized) {
-      if (req.path.startsWith("/login")) {
-        res.redirect("/home");
-      } else {
-        next();
-      }
-    } else {
-      if (req.path.startsWith("/login") || req.path.startsWith("/register")) {
-        next();
-      } else {
-        if (req.path.startsWith("/api")) {
-          res.status(401);
-          res.send("anda harus login dulu.");
-        } else {
-          res.redirect("/login");
-        }
-      }
-    }
+    res.send("Token belum dimasukkan");
   }
 });
-app.use(express.static("public"));
-app.get("/api/data",getdata);
-app.post("/api/register",upload.single("image"), addUser);
-app.post("/api/login", login);
-app.post("/api/admin/soal",postSoal);
-app.get("/api/soal",getSoal);
-app.post("/api/admin/update",putSoal);
-app.delete("/api/admin/delete",deleteSoal);
-// app.post("/api/admin/soal",(req,res)=>{
-//   console.log(req.body);
-// })
-app.get("/api/logout",(req,res)=>{
+// setelah login baru bisa mengakses api selanjutnya
+app.get("/api/home",getContent);
+app.get("/api/vocab", getVocab);
+app.get("/api/vocab1", getVocab1);
+app.get("/api/vocab2", getVocab2);
+app.get("/api/vocab3", getVocab3);
+app.get("/api/data", getdata);
+app.get("/api/me",cardFoto)
+app.post("/api/admin/soal", postSoal);
+app.post("/api/upload",upload.single("image"),uploadForum);
+app.get("/api/forum",forum);
+app.get("/api/soal", getSoal);
+app.put("/api/admin/update", putSoal);
+app.delete("/api/admin/delete", deleteSoal);
+app.get("/api/me");
+app.get("/api/logout", (req, res) => {
   res.clearCookie("token");
   res.send("logout berhasil !!!");
 })

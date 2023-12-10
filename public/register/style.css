@@ -10,9 +10,7 @@ body {
   align-items: center;
   min-height: 100vh;
   background-size: 100%;
-  background-image: url("https://i.pinimg.com/564x/4c/6f/e6/4c6fe61209a7694526242524eb988938.jpg");
-  background-size: cover; /* Atau atur ukuran sesuai kebutuhan Anda */
-  background-repeat: no-repeat; /* Pastikan tidak ada pengulangan gambar */
+  background-color: rgb(205, 223, 233);
 
 }  
 .container {

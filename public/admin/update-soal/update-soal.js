@@ -72,7 +72,11 @@ function hapus() {
   document.input_soal.pilihD.value = "";
   document.input_soal.jawaban.value = "";
 }
-document.querySelector("#keluar").onclick = () => {
-  window.localStorage.clear(localStorage.getItem("token"));
-  location.reload();
-};
+const logout = document.querySelector("#logout");
+logout.onclick = () => {
+    fetch("/api/logout").then((response) => {
+        if (response.ok) {
+            location.href = "/register";
+        }
+    })
+}

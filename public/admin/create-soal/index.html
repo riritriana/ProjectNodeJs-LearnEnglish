@@ -12,7 +12,7 @@
         <a href="./" id="crate"  class="menu">Create Soal</a>
         <a href="../update-soal/" id="update" class="menu">Update Soal</a>
         <a href="../delete-soal/" id="delete"  class="menu">Delete Soal</a>
-        <a href="" id="exit"  class="menu">Exit</a>
+        <a href="" id="logout"  class="menu">Exit</a>
     </div>
     <div class="container-main">
         <h1>Create Question</h1>
@@ -51,7 +51,7 @@
               id=""
               placeholder="Option Part C"
               required/></label>
-          <label for="" class="soal">Option content C
+          <label for="" class="soal">Option content D
           <input
               type="text"
               name="pilihD"
@@ -64,6 +64,8 @@
             name="jawaban"
             id=""
             placeholder="Answer"
+            pattern="[a-dA-D]"
+            title="Please enter a letter from 'a' to 'd'"
             required
         /></label>
           <button>Save</button>
@@ -107,11 +109,14 @@
         document.input_soal.pilihD.value = "";
         document.input_soal.jawaban.value = "";
       }
-      document.querySelector("#exit").onclick = (e) => {
-        window.localStorage.clear(localStorage.getItem("token"));
-        location.reload();
-      };
-
+      const logout = document.querySelector("#logout");
+        logout.onclick = () => {
+            fetch("/api/logout").then((response) => {
+                if (response.ok) {
+                    location.href = "/register";
+                }
+            })
+        }
       </script>
   
 </body>
