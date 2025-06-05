@@ -64,7 +64,7 @@ export async function getVocab(_req,res,next){
         next(error);
     }
 }
-export async function getVocab1(_req,res){
+export async function getVocab1(_req,res,next){
     try {
         const vocab= await conn.query("SELECT * from regular");
         res.send(vocab);
@@ -74,7 +74,7 @@ export async function getVocab1(_req,res){
     }
 
 }
-export async function getVocab2(_req,res){
+export async function getVocab2(_req,res,next){
     try {
         const vocab= await conn.query("SELECT * from adjective");
         res.send(vocab);

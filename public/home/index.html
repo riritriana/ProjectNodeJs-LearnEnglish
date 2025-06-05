@@ -26,7 +26,7 @@
       <li><a href="/">Home</a></li>
       <li><a href="./vocab/">Vocabulary</a></li>
       <li><a href="./quiz/">Quiz</a></li>
-      <li><a id="logout" href="">Logout</a></li>
+      <li><a id="logout2" href="">Logout</a></li>
       <button class="tutup">X</button>
     </ul>
   </header>
@@ -168,9 +168,27 @@
     });
     const logout = document.querySelector("#logout");
     logout.onclick = () => {
-      fetch("/api/logout").then((response) => {
+      fetch("/api/logout",{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }).then((response) => {
         if (response.ok) {
-          location.href = "/register";
+          location.href = "/login";
+        }
+      })
+    }
+     const logout2 = document.querySelector("#logout2");
+    logout2.onclick = () => {
+      fetch("/api/logout", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }).then((response) => {
+        if (response.ok) {
+        location.href = "/login";
         }
       })
     }

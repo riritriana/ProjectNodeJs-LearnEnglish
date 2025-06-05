@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style-admin.css">
-</head
+</head>
 <body>
     <h1>WELCOME TO BERANDA ADMIN</h1>
     <div id="tampil-pilihan">
@@ -18,7 +18,7 @@
     <main>
       <h3>collection of questions and answers</h3>
       <div class="main">
-           <table  id="table-soal">
+           <table id="table-soal">
             <tr>
               <th rowspan="2">No</th>
               <th rowspan="2">Question</th>
@@ -33,62 +33,78 @@
             </tr>
           </table>
       </div>
-  
     </main>
     <a href="../../index.html"></a>
 
-        <script type="module">
-            import validasiUrl, { fetch2 } from "../validasiUrl.js";
-            async function dataSoal() {
-              validasiUrl();
-              const res = await fetch2("/api/soal");
-              const kumpulanData = await res.json();
-              kumpulanData.forEach((data, index) => {
+    <script type="module">
+        import validasiUrl, { fetch2 } from "../validasiUrl.js";
+        
+        async function dataSoal() {
+            validasiUrl();
+            const res = await fetch2("/api/soal");
+            const kumpulanData = await res.json();
+            kumpulanData.forEach((data, index) => {
                 const table = document.getElementById("table-soal");
                 const tr = document.createElement("tr");
-      
+
                 const td = document.createElement("td");
                 td.textContent = index + 1;
                 tr.appendChild(td);
-      
+
                 const td1 = document.createElement("td");
                 td1.textContent = data.soal;
                 tr.appendChild(td1);
-      
+
                 const td2 = document.createElement("td");
                 td2.textContent = data.pilihan_A;
                 tr.appendChild(td2);
-      
+
                 const td3 = document.createElement("td");
                 td3.textContent = data.pilihan_B;
                 tr.appendChild(td3);
-      
+
                 const td4 = document.createElement("td");
                 td4.textContent = data.pilihan_C;
                 tr.appendChild(td4);
-      
+
                 const td5 = document.createElement("td");
                 td5.textContent = data.pilihan_D;
                 tr.appendChild(td5);    
-      
+
                 const td6 = document.createElement("td");
                 td6.textContent = data.jawaban;
                 tr.appendChild(td6);
-      
+
                 table.appendChild(tr);
-              });
-            }
-            dataSoal();
-            const logout = document.querySelector("#logout");
-        logout.onclick = () => {
-            fetch("/api/logout").then((response) => {
-                if (response.ok) {
-                    location.href = "/register";
-                }
-            })
+            });
         }
 
-          </script>
-      
+        dataSoal();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const logout = document.querySelector("#logout");
+            logout.addEventListener("click", () => {
+                console.log("masukkk");
+                
+                const token = localStorage.getItem("token");
+                if (token) {
+                    fetch("/api/logout", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }).then((response) => {
+                        if (response.ok) {
+                            location.href = "/login";
+                        } else {
+                            console.error("Logout failed!");
+                        }
+                    }).catch(error => console.error("Logout request error: ", error));
+                } else {
+                    console.error("No token found in localStorage");
+                }
+            });
+        });
+    </script>
 </body>
 </html>

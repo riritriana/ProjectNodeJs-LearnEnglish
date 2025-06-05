@@ -35,6 +35,8 @@
 </html>
 
 <script>
+  
+                  localStorage.removeItem("token");
   document.login.onsubmit = async (e) => {
     e.preventDefault();
     const user = document.login.username.value;

@@ -1,64 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <!-- <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> -->
-    <link rel="stylesheet" href="./style-delete.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./style-delete.css" />
+  </head>
+  <body>
     <div id="tampil-pilihan">
-        <a href="../" id="read" class="menu">Read Soal</a>
-        <a href="../create-soal/" id="crate"  class="menu">Create Soal</a>
-        <a href="../update-soal/" id="update" class="menu">Update Soal</a>
-        <a href="./" id="delete"  class="menu">Delete Soal</a>
-        <a href="" id="logout"  class="menu">Exit</a>
+      <a href="../" id="read" class="menu">Read Soal</a>
+      <a href="../create-soal/" id="crate" class="menu">Create Soal</a>
+      <a href="../update-soal/" id="update" class="menu">Update Soal</a>
+      <a href="./" id="delete" class="menu">Delete Soal</a>
+      <a href="" id="logout" class="menu">Exit</a>
     </div>
     <div class="main">
-        <h1>Delete Question</h1>
-        <form action="" name="input_soal">
-          <select id="tampilan-soal"></select>
-          <label for="" class="buat-soal">
-            Input Soal
-            <textarea name="soal" id="" cols="30"disable rows="10"
-              placeholder=" Question Description ... "
-              required disabled
-            ></textarea>
-          </label>
-          <label for="" class="soal"
-            >Option content A<input
-              type="text"
-              name="pilihA"
-              id=""
-              placeholder="Input Option A"
-              required disabled
-          /></label>
-          <label for="" class="soal"
-            >option content B
-            <input
-              type="text"
-              name="pilihB"
-              id=""
-              placeholder="Input Option B"
-              required disabled/>
-            </label>
-          <label for="" class="soal">option content C
-            <input
-              type="text"
-              name="pilihC"
-              id=""
-              placeholder="Option Part C"
-              required disabled/></label>
-          <label for="" class="soal">Option content D
+      <h1>Delete Question</h1>
+      <form action="" name="input_soal">
+        <select id="tampilan-soal"></select>
+        <label for="" class="buat-soal">
+          Input Soal
+          <textarea
+            name="soal"
+            id=""
+            cols="30"
+            disable
+            rows="10"
+            placeholder=" Question Description ... "
+            required
+            disabled
+          ></textarea>
+        </label>
+        <label for="" class="soal"
+          >Option content A<input
+            type="text"
+            name="pilihA"
+            id=""
+            placeholder="Input Option A"
+            required
+            disabled
+        /></label>
+        <label for="" class="soal"
+          >option content B
           <input
-              type="text"
-              name="pilihD"
-              id=""
-              placeholder="Input Option D"
-              required disabled/></label>  
-          <label for="" class="soal">Answer
-            <input
+            type="text"
+            name="pilihB"
+            id=""
+            placeholder="Input Option B"
+            required
+            disabled
+          />
+        </label>
+        <label for="" class="soal"
+          >option content C
+          <input
+            type="text"
+            name="pilihC"
+            id=""
+            placeholder="Option Part C"
+            required
+            disabled
+        /></label>
+        <label for="" class="soal"
+          >Option content D
+          <input
+            type="text"
+            name="pilihD"
+            id=""
+            placeholder="Input Option D"
+            required
+            disabled
+        /></label>
+        <label for="" class="soal"
+          >Answer
+          <input
             type="text"
             name="jawaban"
             id=""
@@ -66,37 +82,55 @@
             required
             disabled
         /></label>
-          <button>Delete</button>
-          <button type="reset">Cancel</button>
-        </form>
-      </div>
-      <!-- <a href="../../index.html"></a> -->
-      <script type="module">
+        <button>Delete</button>
+        <button type="reset">Cancel</button>
+      </form>
+    </div>
+    <!-- <a href="../../index.html"></a> -->
+    <script type="module">
       import { option, tampilanSoal } from "../update-soal/update-soal.js";
-      import  validasiUrl,{fetch3 } from "../../validasiUrl.js";
+      import validasiUrl, { fetch3 } from "../../validasiUrl.js";
       const soal = document.getElementById("tampilan-soal");
       let nomor = 0;
       soal.addEventListener("change", (e) => tampilanSoal(e.target.value));
-     
+
       document.input_soal.onclick = async (e) => {
         e.preventDefault();
         const data = {
-          nomor :  document.getElementById("tampilan-soal").value,
-        }
-        const response = await fetch3("/api/admin/delete","DELETE",data);
-         const pesan = await response.text();
-         alert(pesan);
-         location.href = "../";
-      }
-
-        const logout = document.querySelector("#logout");
-        logout.onclick = () => {
-            fetch("/api/logout").then((response) => {
-                if (response.ok) {
-                    location.href = "/register";
-                }
-            })
+          nomor: document.getElementById("tampilan-soal").value,
         };
-      </script>
-</body>
+        const response = await fetch3("/api/admin/delete", "DELETE", data);
+        const pesan = await response.text();
+        alert(pesan);
+        location.href = "../";
+      };
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const logout = document.querySelector("#logout");
+        logout.addEventListener("click", () => {
+          console.log("masukkk");
+
+          const token = localStorage.getItem("token");
+          if (token) {
+            fetch("/api/logout", {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => {
+                if (response.ok) {
+                  location.href = "/login";
+                } else {
+                  console.error("Logout failed!");
+                }
+              })
+              .catch((error) => console.error("Logout request error: ", error));
+          } else {
+            console.error("No token found in localStorage");
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

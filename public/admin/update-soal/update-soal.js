@@ -36,7 +36,7 @@ export async function tampilanSoal(data) {
       document.input_soal.pilihA.value = e.pilihan_A;
       document.input_soal.pilihB.value = e.pilihan_B;
       document.input_soal.pilihC.value = e.pilihan_C;
-      document.input_soal.pilihD.value = e.pilihan_D;   
+      document.input_soal.pilihD.value = e.pilihan_D;
       document.input_soal.jawaban.value = e.jawaban;
     }
   });
@@ -61,7 +61,7 @@ document.input_soal.onsubmit = async (e) => {
       jawaban: document.input_soal.jawaban.value,
     }),
   });
-  location.href="../";
+  location.href = "../";
   alert("Berhasil di ubah");
 };
 function hapus() {
@@ -72,11 +72,27 @@ function hapus() {
   document.input_soal.pilihD.value = "";
   document.input_soal.jawaban.value = "";
 }
-const logout = document.querySelector("#logout");
-logout.onclick = () => {
-    fetch("/api/logout").then((response) => {
-        if (response.ok) {
-            location.href = "/register";
-        }
-    })
-}
+   document.addEventListener("DOMContentLoaded", () => {
+            const logout = document.querySelector("#logout");
+            logout.addEventListener("click", () => {
+                console.log("masukkk");
+                
+                const token = localStorage.getItem("token");
+                if (token) {
+                    fetch("/api/logout", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                    }).then((response) => {
+                        if (response.ok) {
+                            location.href = "/login";
+                        } else {
+                            console.error("Logout failed!");
+                        }
+                    }).catch(error => console.error("Logout request error: ", error));
+                } else {
+                    console.error("No token found in localStorage");
+                }
+            });
+        });
