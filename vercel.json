@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
+      "src": "api/index.js",  // Menunjuk ke file 'index.js' di dalam folder 'api'
       "use": "@vercel/node"
     },
     {
-      "src": "public/**/*",
+      "src": "public/**/*",  // Untuk file statis (CSS, gambar, dll)
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/index.js"
+      "src": "/(.*)",  // Menangani semua rute
+      "dest": "/api/index.js"  // Mengarahkannya ke '/api/index.js'
     }
   ]
 }
