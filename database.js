@@ -1,19 +1,19 @@
 import { Pool } from "pg";
 
 // Using the connection URL directly
-const pool = new Pool({
+const conn = new Pool({
   connectionString: "postgresql://postgres.yeqmdlmpbqhgoylucabq:oMKWGDTXFvNauYf5@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
 });
 
 try {
-  const client = await pool.connect();
+  const client = await conn.connect();
   console.log("Database connected successfully!");
   client.release();
 } catch (err) {
   console.error("Error while connecting to the database:", err);
 }
 
-export default pool;
+export default conn;
 // import mariadb from "mariadb";
 
 // const pool = mariadb.createPool({
