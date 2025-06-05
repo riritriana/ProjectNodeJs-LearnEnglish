@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import multer from "multer";
-import { addUser, login } from "./route/regist.js";
+import { addUser, login } from "../route/regist.js";
 import {
   getdata,
   postSoal,
@@ -16,7 +16,7 @@ import {
   cardFoto,
   uploadForum,
   forum,
-} from "./route/english-route.js";
+} from "../route/english-route.js";
 import cookieParser from "cookie-parser";
 const upload = multer({ dest: "public/images" });
 const app = express();
