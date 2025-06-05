@@ -1,6 +1,4 @@
-
 import express from "express";
-import conn from "./database.js";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import { addUser, login } from "./route/regist.js";
@@ -70,4 +68,3 @@ app.get("/api/logout", (req, res) => {
 app.listen(3000, () => {
   console.log("The server starts on port 3000.");
 });
-
