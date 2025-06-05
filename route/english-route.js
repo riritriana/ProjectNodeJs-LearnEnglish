@@ -1,5 +1,9 @@
 import conn from "../database.js";
+import multer from 'multer';
+import supabase from '../api/storage.js';
 
+const storage = multer.memoryStorage();  // Menyimpan file dalam buffer (bukan ke disk)
+const upload = multer({ storage: storage });
 // Get all users from 'akun' table
 export async function getdata(_req, res, next) {
     try {
@@ -137,16 +141,46 @@ export async function cardFoto(_req, res, next) {
 
 // Upload forum image into the 'upload' table
 export async function uploadForum(req, res) {
-    try {
-        await conn.query(
-            `INSERT INTO upload (image, keterangan) VALUES ($1, $2)`,
-            [req.file.filename, req.body.keterangan]
-        );
-        res.send("Forum image uploaded successfully");
+   try {
+      // Pastikan ada file yang di-upload
+      if (!req.file) {
+         return res.status(400).send('No file uploaded');
+      }
 
-    } catch (error) {
-        res.status(500).send("Error uploading forum image");
-    }
+      // Mendapatkan file dari request
+      const file = req.file;
+      const fileName = Date.now() + '-' + file.originalname;  // Menambahkan timestamp untuk nama file unik
+
+      // Upload file ke Supabase Storage
+      const { data, error } = await supabase
+         .storage
+         .from('uploads')  // Ganti dengan nama bucket kamu
+         .upload(`uploads/${fileName}`, file.buffer, {
+             contentType: file.mimetype, // Set content type dari file
+         });
+
+      if (error) {
+         throw error;
+      }
+
+      // Mendapatkan URL file yang di-upload
+      const publicUrl = supabase
+         .storage
+         .from('uploads')  // Ganti dengan nama bucket kamu
+         .getPublicUrl(`uploads/${fileName}`).publicURL;
+
+      // Simpan nama file dan keterangan ke database PostgreSQL
+      await conn.query(
+         `INSERT INTO upload (image, keterangan) VALUES ($1, $2)`,
+         [fileName, req.body.keterangan]  // Menyimpan nama file dan keterangan
+      );
+
+      res.send({ message: "File uploaded successfully", url: publicUrl });
+
+   } catch (error) {
+      console.log(error);
+      res.status(500).send("Error uploading forum image");
+   }
 }
 
 // Get forum images and descriptions from the 'upload' table
@@ -159,4 +193,3 @@ export async function forum(req, res) {
         next(error);
     }
 }
-``
